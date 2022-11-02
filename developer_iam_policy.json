@@ -1,0 +1,125 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "logs:ListTagsLogGroup",
+                "cloudwatch:GetDashboard",
+                "logs:DescribeLogGroups",
+                "cloudwatch:ListTagsForResource",
+                "cloudwatch:DescribeAlarms",
+                "logs:FilterLogEvents",
+                "logs:GetLogGroupFields"
+            ],
+            "Resource": [
+                "arn:aws:logs:*:183782271147:log-group:*",
+                "arn:aws:cloudwatch::183782271147:dashboard/*",
+                "arn:aws:cloudwatch:*:183782271147:alarm:*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeQueries",
+                "logs:GetLogRecord",
+                "cloudwatch:GetMetricData",
+                "cloudwatch:GetMetricStatistics",
+                "logs:GetLogDelivery",
+                "cloudwatch:ListMetrics",
+                "logs:ListLogDeliveries",
+                "logs:GetQueryResults",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "cloudwatch:ListDashboards",
+                "logs:DescribeQueryDefinitions",
+                "logs:DescribeResourcePolicies",
+                "cloudwatch:GetMetricWidgetImage",
+                "logs:DescribeDestinations"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": "logs:GetLogEvents",
+            "Resource": "arn:aws:logs:*:183782271147:log-group:*:log-stream:*"
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Deny",
+            "Action": [
+                "codecommit:ListBranches",
+                "codecommit:GetPullRequestOverrideState",
+                "codecommit:UpdatePullRequestDescription",
+                "codecommit:GitPull",
+                "codecommit:BatchGetRepositories",
+                "codecommit:ListPullRequests",
+                "codecommit:UpdatePullRequestApprovalRuleContent",
+                "codecommit:GetFolder",
+                "codecommit:GetPullRequestApprovalStates",
+                "codecommit:UpdatePullRequestTitle",
+                "codecommit:BatchGetPullRequests",
+                "codecommit:ListTagsForResource",
+                "codecommit:GetFile",
+                "codecommit:GetRepository",
+                "codecommit:GetBranch",
+                "codecommit:DescribePullRequestEvents",
+                "codecommit:CreatePullRequest",
+                "codecommit:UpdatePullRequestStatus",
+                "codecommit:UpdatePullRequestApprovalState",
+                "codecommit:GetPullRequest"
+            ],
+            "Resource": "arn:aws:codecommit:*:183782271147:*",
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "codecommit:References": [
+                        "refs/heads/main",
+                        "refs/heads/prod"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "VisualEditor4",
+            "Effect": "Deny",
+            "Action": [
+                "codecommit:MergeBranchesByFastForward",
+                "codecommit:MergeBranchesBySquash",
+                "codecommit:MergePullRequestBySquash",
+                "codecommit:MergePullRequestByThreeWay",
+                "codecommit:MergeBranchesByThreeWay",
+                "codecommit:MergePullRequestByFastForward",
+                "codecommit:PutFile",
+                "codecommit:GitPush"
+            ],
+            "Resource": "arn:aws:codecommit:*:183782271147:*",
+            "Condition": {
+                "Null": {
+                    "codecommit:References": "false"
+                },
+                "StringEqualsIfExists": {
+                    "codecommit:References": [
+                        "refs/heads/main",
+                        "refs/heads/prod"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "VisualEditor5",
+            "Effect": "Deny",
+            "Action": "codecommit:ListRepositories",
+            "Resource": "*",
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "codecommit:References": [
+                        "refs/heads/main",
+                        "refs/heads/prod"
+                    ]
+                }
+            }
+        }
+    ]
+}
